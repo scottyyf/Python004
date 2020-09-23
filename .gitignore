@@ -1,0 +1,8 @@
+venv/
+.idea/
+*/__pyca*
+__pyca*
+*/*/__pyca*
+*.csv
+*/*.csv
+*/*/*.csv
