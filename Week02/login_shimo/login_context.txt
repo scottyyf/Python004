@@ -1,0 +1,3 @@
+[DEFAULT]
+user_name = mock
+password = mock

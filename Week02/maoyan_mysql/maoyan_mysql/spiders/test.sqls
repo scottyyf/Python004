@@ -1,0 +1,2 @@
+create database maoyan;
+create table maoyan(number int unsigned not null primary key auto_increment, movietype varchar(255), name varchar(255), onshow varchar(255));
