@@ -19,7 +19,7 @@ MYSQL_DB = 'maoyan'
 
 PROXY_IN_DICT = {
     'http': ['http://127.0.0.1:12333'],
-    'https': [],
+    'https': ['http://127.0.0.1:12333'],
     }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
