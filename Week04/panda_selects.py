@@ -36,10 +36,11 @@ print(df[(df['id'] < 1000) & (df['age'] > 30)])
 print(df.join(df1, how='inner', on='id'))
 
 # 8. SELECT * FROM table1 UNION SELECT * FROM table2;
-print(pd.concat([df, df1], axis=0))
+print(pd.concat([df, df1], axis=0).drop_duplicates())
 
 # 9. DELETE FROM table1 WHERE id=10;
-print(df[(df['id'] != 10).all(axis=0)])
+# print(df[(df['id'] != 10).all(axis=0)])
+print(df[df['id'] != 10])
 
 # 10. ALTER TABLE table1 DROP COLUMN column_name;
-print(df.drop(columns=['column_name']))
+print(df.drop(columns=['column_name'], axis=1))
