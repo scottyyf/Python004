@@ -20,6 +20,7 @@ class ThinkAndEat(threading.Thread):
                  right_lock: threading.Lock,
                  data: Queue,
                  rice_lock: threading.Lock,
+                 void_dead_lock: Queue,
                  index=1,
                  times=1,
                  ):
@@ -31,15 +32,32 @@ class ThinkAndEat(threading.Thread):
         self.index = index
         self.data = data
         self.rice_lock = rice_lock
+        self.dead_lock = void_dead_lock
+        self.ticket = None
 
     def run(self) -> None:
         total = 0
         while total < self.times:
             self.go_think()
+            self.try_to_get_ticket()
             self.try_to_get_fork()
             self.go_eat()
             self.drop_fork()
+            self.drop_ticket()
             total += 1
+
+    def try_to_get_ticket(self):
+        if self.ticket:
+            print(f'{self.boy_name} alread have ticket')
+            return True
+
+        self.ticket = self.dead_lock.get(True)
+        print(f'{self.boy_name} successfully get ticket')
+        return True
+
+    def drop_ticket(self):
+        self.ticket = None
+        self.dead_lock.put('x_mark')
 
     def try_to_get_fork(self):
         self._get_fork(self.left_lock, 'left fork')
@@ -96,13 +114,15 @@ if __name__ == '__main__':
     five_guys = ['Scott', 'Lucy', 'Mary', 'Tom', 'mark']
     locks = [threading.Lock() for _ in range(5)]
     rice_lock = threading.Lock()
-    conn = threading.Condition()
+    void_dead_lock = Queue(4)
+    for _ in range(4):
+        void_dead_lock.put('x_mark')
 
     data = Queue()
     ret = [
         ThinkAndEat(
             five_guys[i], locks[i], locks[(i + 1) % 5], data, rice_lock,
-            index=i + 1, times=TIME, ) for i in range(5)]
+            void_dead_lock, index=i + 1, times=TIME, ) for i in range(5)]
     for t_and_e in ret:
         t_and_e.setDaemon(True)
         t_and_e.start()
