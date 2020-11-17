@@ -8,6 +8,7 @@ Email: yangyingfa@skybility.com
 Copyright: Copyright (c) 2020, Skybility Software Co.,Ltd. All rights reserved.
 Description:
 """
+import multiprocessing
 import os
 import re
 from lxml.etree import HTML

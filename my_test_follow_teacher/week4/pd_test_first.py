@@ -14,37 +14,35 @@ import numpy as np
 import matplotlib as plt
 import os
 
+from snownlp import SnowNLP
+
 pwd = os.path.dirname((os.path.abspath(__file__)))
 book = os.path.join(pwd, 'book_utf8.csv')
 
 df = pd.read_csv(book)
-# print(df[1:3])
-# 加头
+
 df.columns = ('star', 'vote', 'shorts')
 
-# 行， 列指定
-print(df.loc[1:3, 'star'])
+star_to_number = {
+    '力荐' : 5,
+    '推荐' : 4,
+    '还行' : 3,
+    '较差' : 2,
+    '很差' : 1
+}
 
-# 过滤，excel筛选
-print(df['star'] == '力荐')
+df['new_star'] = df.star.map(star_to_number)
 
-# 缺失数据
-df.dropna()
-# print(df)
+first_line = df[df['new_star'] == 3].iloc(axis=0)[0]
+text = first_line.shorts
 
-## 数据聚合
-print(df.groupby('star').sum())
 
-# 创建新列
-star_to_num = {
-    '力荐': 7,
-    '很差': 2,
-    '推荐': 3,
-    '较差': 14,
-    '还行': 24
-    }
-df.columns.__add__(['num_star'])
+def _get_sentiment(text):
+    s = SnowNLP(text)
+    return s.sentiments
 
-# python 和excel结合
-df['num_star'] = df['star'].map(star_to_num)
-print(df)
+
+df['sentiment'] = df.shorts.apply(_get_sentiment)
+print(df.sentiment.mean())
+
+

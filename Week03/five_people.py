@@ -13,6 +13,7 @@ import random
 import time
 from datetime import datetime
 from queue import Queue
+import sys
 
 
 class ThinkAndEat(threading.Thread):
@@ -84,6 +85,8 @@ class ThinkAndEat(threading.Thread):
         self.data.put([self.index, 1, 2])
         self.right_lock.release()
         self.data.put([self.index, 2, 2])
+        print(f'{self.boy_name} drop fork at '
+              f'{datetime.now().strftime("%Y/%m/%d %H:%M:%S")}')
 
     def go_think(self):
         print(f'{self.boy_name}: run into thinking state!')
@@ -96,7 +99,7 @@ class ThinkAndEat(threading.Thread):
             if self.rice_lock.locked():
                 print(f'{self.boy_name} says: some one is in eating state, '
                       f'i will wait')
-                time.sleep(random.randint(1, 3))
+                time.sleep(random.randint(0, 1))
                 continue
 
             self.rice_lock.acquire()
@@ -108,9 +111,13 @@ class ThinkAndEat(threading.Thread):
             break
 
 
-TIME = 2
-
 if __name__ == '__main__':
+    args = sys.argv
+    if len(args) < 2:
+        TIME = 1
+    else:
+        TIME = int(args[1])
+
     five_guys = ['Scott', 'Lucy', 'Mary', 'Tom', 'mark']
     locks = [threading.Lock() for _ in range(5)]
     rice_lock = threading.Lock()
