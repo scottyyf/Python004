@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-File: cook_dog.py.py
+File: cook_dog.py
 Author: Scott Yang(Scott)
 Email: yangyingfa@skybility.com
 Copyright: Copyright (c) 2020, Skybility Software Co.,Ltd. All rights reserved.
@@ -76,7 +76,9 @@ class Zoo:
             return
 
         if not hasattr(self, animal.__class__.__name__):
-            setattr(self, animal.__class__.__name__, animal.__class__)
+            setattr(self, animal.__class__.__name__, [])
+
+        getattr(self, animal.__class__.__name__).append(animal)
 
         self._data.append(animal)
 
@@ -107,21 +109,37 @@ class Dog(Cat):
 if __name__ == '__main__':
     # 实例化动物园
     z = Zoo('时间动物园')
+
     # 实例化一只猫，属性包括名字、类型、体型、性格
     cat1 = Cat('大花猫 1', 'meat', 'medium', 'violent')
     dog1 = Dog('大花狗 1', 'meat', 'slim', 'violent')
     dog2 = Dog('大花狗 2', 'meat', 'slim', 'violent')
+    dog3 = Dog('大花狗 3', 'meat', 'slim', 'violent')
+    dog4 = Dog('大花狗 4', 'meat', 'slim', 'violent')
+    dog5 = Dog('大花狗 5', 'meat', 'slim', 'violent')
 
     # 增加一只猫到动物园
     z.add_animal(cat1)
     z.add_animal(cat1)
     z.add_animal(dog1)
     z.add_animal(dog2)
+    z.add_animal(dog2)
+    z.add_animal(dog3)
+    z.add_animal(dog3)
+    z.add_animal(dog4)
+    z.add_animal(dog4)
+    z.add_animal(dog5)
+    z.add_animal(dog5)
     z.add_animal(dog1)
     for i in z.data:
-        print(i.name, ': ', i.LAUGH, 'am i not a hello ketty? ', i.dangerous)
+        print(i.name, ': ', i.LAUGH, 'am i a hello ketty? ', i.is_pet())
+
     # 动物园是否有猫这种动物
-    have_cat = hasattr(z, 'Cat')
-    have_dog = hasattr(z, 'Dog')
-    print(have_cat)
-    print(have_dog)
+    for animal in ['Dog', 'Cat', 'Snake', 'docker']:
+        if animal not in z.__dict__:
+            print(f'Z object {z} has no {animal} attributes')
+            continue
+
+        for pet_list in getattr(z, animal):
+            print(pet_list.name)
+

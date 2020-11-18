@@ -12,6 +12,7 @@ Description:
 
 class Shape:
     CHOICE = ['slim', 'medium', 'fat']
+
     # shape = 'slim'
 
     def __getattribute__(self, item):
@@ -33,6 +34,7 @@ class Shape:
 
 class Food:
     CHOICE = ['meat', 'glass', 'both']
+
     # type = 'both'
 
     def __getattribute__(self, item):
@@ -54,6 +56,7 @@ class Food:
 
 class Character:
     CHOICE = ['gentle', 'violent']
+
     # character = 'gentle'
 
     def __getattribute__(self, item):
@@ -75,4 +78,6 @@ class Character:
 
 if __name__ == '__main__':
     c = Character()
-    print(c.xo)
+    c.character = 'x'
+    print(hasattr(c, 'character'))
+    print(c.character)

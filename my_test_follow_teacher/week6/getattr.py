@@ -15,7 +15,7 @@ class Human:
         self.name = 's'
 
     def __get__(self, instance, owner):
-        print(instance.dirname)
+        # print(instance.dirname)
         print('get')
         return self.name
 
@@ -31,10 +31,10 @@ class my:
     a = Human()
 
 
-# a=my()
+a = my()
 # print(a.a)
-# a.a=10
-# print(a.a)
+a.a = 10
+print(a.a)
 # del(a.a)
 
 import os
@@ -69,11 +69,10 @@ class Foo:
     def __init__(self):
         self.name = 's'
 
-
-f = Foo()
-f1 = Foo()
-print(id(f))
-print(id(f1))
-
-print(id(os.name))
-print(id(os.name))
+# f = Foo()
+# f1 = Foo()
+# print(id(f))
+# print(id(f1))
+#
+# print(id(os.name))
+# print(id(os.name))
