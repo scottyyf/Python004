@@ -46,12 +46,8 @@ class Animal(ABC):
         return c.character
 
     def _eat_child(self):
-        if all(
-                [
-                    self.character() == 'violent',
-                    self.shape() != 'slim',
-                    self.food() == 'meat',
-                    ]):
+        if all([self.character() == 'violent', self.shape() != 'slim',
+                self.food() == 'meat', ]):
             return True
 
         return False
@@ -142,4 +138,3 @@ if __name__ == '__main__':
 
         for pet_list in getattr(z, animal):
             print(pet_list.name)
-
